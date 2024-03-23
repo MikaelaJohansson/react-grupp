@@ -1,14 +1,17 @@
-
-import './App.css'
+import "./App.css";
+import Navigation from "./Navigation/Navlink";
+import Switch from "./Navigation/Switch";
 
 function App() {
-  
-
   return (
     <>
-    <p>heeej</p>
+      <div>
+        <p>Navigerings länkar</p>
+        <Navigation></Navigation>
+        <Switch></Switch>
+      </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
