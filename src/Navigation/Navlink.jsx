@@ -1,14 +1,19 @@
-import { NavLink } from "react-router-dom"
+import { NavLink } from "react-router-dom";
 
 const Navigation = () => {
   return (
-    <nav>{/**Skapa länkar till våra routes */}
+    <nav>
+      {/**Skapa länkar till våra routes */}
       <ul>
-        <li>{/**Lägg till flera länkar här under */}
+        <li>
+          {/**Lägg till flera länkar här under */}
           <NavLink to="/">Home</NavLink>
         </li>
         <li>
           <NavLink to="/about">About</NavLink>
+        </li>
+        <li>
+          <NavLink to="/auctionpage">Auktion Page</NavLink>
         </li>
       </ul>
     </nav>
