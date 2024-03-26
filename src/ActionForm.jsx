@@ -1,8 +1,9 @@
+
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const CreateAuction = () => {
 
+const CreateAuction = () => {
   const [auctionData, setAuctionData] = useState({
     Title: '',
     Description: '',
@@ -22,10 +23,19 @@ const CreateAuction = () => {
     try {
       const response = await axios.post('https://auctioneer.azurewebsites.net/auction/b3c', auctionData);
       console.log('Auction created:', response.data);
+      setAuctionData({
+        Title: '',
+        Description: '',
+        StartDate: '',
+        EndDate: '',
+        StartingPrice: '',
+        CreatedBy: ''
+      });
     } catch (error) {
       console.error('Error creating auction:', error);     
     }
   };
+
 
   return (
     <div>
@@ -50,12 +60,11 @@ const CreateAuction = () => {
         <label>Created By:</label>
         <input type="text" name="CreatedBy" value={auctionData.CreatedBy} onChange={handleChange} />
 
-        <button type="submit">Create Auction</button>
+        <button>Create Auction</button>
+  
       </form>
-
     </div>
   );
 };
 
 export default CreateAuction;
-
