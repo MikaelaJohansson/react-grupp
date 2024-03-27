@@ -1,7 +1,8 @@
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import ActionForm from './ActionForm';
-import MyActions from './MyActions';
+import EditAction from './EditAction';
 import './App.css';
+
 
 function App() {
   return (
@@ -9,12 +10,12 @@ function App() {
       <div>
         <NavLink to="/ActionForm">New Action</NavLink>
         <br />
-        <NavLink to="/MyActions">My Actions</NavLink>
+        <NavLink to="/EditAction">Edit Actions</NavLink>
       </div>
       <div>
         <Routes>
           <Route path="/ActionForm" element={<ActionForm />} />
-          <Route path="/MyActions" element={<MyActions />} />
+          <Route path="/EditAction" element={<EditAction/>} />
         </Routes>
       </div>
     </BrowserRouter>
