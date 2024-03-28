@@ -14,8 +14,9 @@ function App() {
       </div>
       <div>
         <Routes>
-          <Route path="/ActionForm" element={<ActionForm />} />
-          <Route path="/EditAction" element={<EditAction/>} />
+          <Route exact path="/ActionForm" element={<ActionForm />} />
+          <Route exact path="/EditAction" element={<EditAction/>} />
+               
         </Routes>
       </div>
     </BrowserRouter>
