@@ -1,5 +1,3 @@
-
-
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import ActionForm from './ActionForm';
 import EditAction from './EditAction';
@@ -15,7 +13,7 @@ function App() {
       </div>
       <div>
         <Routes>
-          <Route path="/" element={<h2>Welcome to the Home Page</h2>} />
+          <Route path="/" element={<h1>Welcome to the Home Page</h1>} />
           <Route path="/ActionForm" element={<ActionForm />} />
           <Route path="/EditAction" element={<EditAction />} />
         </Routes>

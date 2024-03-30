@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
+import styles from './modulesCSS/ActionForm.module.css' 
 
 const CreateAuction = () => {
   const [auctionData, setAuctionData] = useState({
@@ -37,15 +38,16 @@ const CreateAuction = () => {
   };
 
   return (
-    <div>
-      <h2>Create a New Auction</h2>
+    <div className={styles.main}>
+     
+      <form className={styles.input} onSubmit={handleSubmit}>
+        <h1 className={styles.h1}>Create a New Auction</h1>
 
-      <form onSubmit={handleSubmit}>
         <label>Title:</label>
         <input type="text" name="Title" value={auctionData.Title} onChange={handleChange} />
 
         <label>Description:</label>
-        <input type="text" name="Description" value={auctionData.Description} onChange={handleChange} />
+        <textarea type="text" name="Description" value={auctionData.Description} onChange={handleChange} />
 
         <label>Start Date:</label>
         <input type="date" name="StartDate" value={auctionData.StartDate} onChange={handleChange} />
@@ -58,13 +60,12 @@ const CreateAuction = () => {
 
         <label>Created By:</label>
         <input type="text" name="CreatedBy" value={auctionData.CreatedBy} onChange={handleChange} />
-
-        <button>Create Auction</button>
+        <br />
+        <button className={styles.button}>Create Auction</button>
   
       </form>
-
-      {/* Knapp för att navigera tillbaka till home page */}
-      <NavLink to="/">Back to Home Page</NavLink>
+      
+      <NavLink to="/">Back to Home </NavLink>
     </div>
   );
 };
