@@ -1,15 +1,15 @@
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import { NavLink } from 'react-router-dom';
 
 const EditAction = () => {
   const [data, setData] = useState(null);
   const [post, setPost] = useState({
-    GroupCode: "",
+    GroupCode: '',
     AuctionId: ''
   });
-
-  const [editable, setEditable] = useState(false); 
+  const [editable, setEditable] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,7 +25,6 @@ const EditAction = () => {
 
     fetchData();
   }, [post.AuctionId]);
-
 
   useEffect(() => {
     const fetchAuctionId = async () => {
@@ -53,7 +52,7 @@ const EditAction = () => {
       if (data && data.StartingPrice === 0) {
         await axios.delete(`https://auctioneer.azurewebsites.net/auction/${post.GroupCode}/${post.AuctionId}`);
         console.log('Action deleted successfully');
-       
+        setData(null); // Återställ data till null efter delete
       }
     } catch (error) {
       console.error('Error deleting action:', error);
@@ -69,6 +68,7 @@ const EditAction = () => {
       await axios.put(`https://auctioneer.azurewebsites.net/auction/b3c/${post.AuctionId}`, data);
       console.log('Auction updated successfully');
       setEditable(false);
+      setData(null); // Återställ data till null efter submit
     } catch (error) {
       console.error('Error updating auction:', error);
     }
@@ -78,11 +78,17 @@ const EditAction = () => {
     <>
       <h2>Edit Action</h2>
 
+      <div>
+        <NavLink to="/">Back to Home</NavLink> {/* Länk till startsidan */}
+      </div>
+
       <p>Choose action here</p>
       <form>
+        <label>Group Code</label>
+        <input type="text" name="GroupCode" value={post.GroupCode} onChange={handleInput} />
+        <br />
         <label>Auction Id</label>
         <input type="text" name="AuctionId" value={post.AuctionId} onChange={handleInput} />
-        <br />
       </form>
 
       <h2>Selected Action</h2>
@@ -131,10 +137,10 @@ const EditAction = () => {
       ) : (
         <p>No action selected</p>
       )}
-
     </>
   );
 };
 
 export default EditAction;
+
 

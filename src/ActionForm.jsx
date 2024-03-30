@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import axios from 'axios';
-
 
 const CreateAuction = () => {
   const [auctionData, setAuctionData] = useState({
@@ -36,7 +36,6 @@ const CreateAuction = () => {
     }
   };
 
-
   return (
     <div>
       <h2>Create a New Auction</h2>
@@ -63,6 +62,9 @@ const CreateAuction = () => {
         <button>Create Auction</button>
   
       </form>
+
+      {/* Knapp för att navigera tillbaka till home page */}
+      <NavLink to="/">Back to Home Page</NavLink>
     </div>
   );
 };
