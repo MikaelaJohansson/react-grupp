@@ -6,7 +6,6 @@ function App() {
   return (
     <>
       <div>
-        <p>Navigerings länkar</p>
         <Navigation></Navigation>
         <Switch></Switch>
       </div>

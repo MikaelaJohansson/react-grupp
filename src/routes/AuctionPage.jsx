@@ -1,19 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../App.css";
-// TO DO:
-//är auktionen öppen, möjlighet att läga ett bud
-//måste vara högre än högsta budet, annars meddela att budet vår för lågt
 
 // state variabler för AuctionPage
 function AuctionPage() {
   const [auctions, setAuctions] = useState([]); // lagrar alla auktioner från API
   const [selectedAuction, setSelectedAuction] = useState(null); //den valda auktionen
-  const [userBid, setUserBid] = useState(""); // lagrar det bud som användaren vill lägga
   const [highestBid, setHighestBid] = useState(null); // det högsta budet som finns
   const [message, setMessage] = useState(""); //meddelanden till användaren
   const [isAuctionOpen, setIsAuctionOpen] = useState(false); // Tillståndsknapp för att hålla reda på om auktionen är öppen eller stängd
-  //const [isAuctionEnded, setIsAuctionEnded] = useState(false); // Kolla om auktionen är aktuell
   const [bidHistory, setBidHistory] = useState([]); // budhistorik
+  const inputBidRef = useRef(null);
 
   useEffect(() => {
     fetchAuctions();
@@ -24,8 +20,9 @@ function AuctionPage() {
     try {
       const response = await fetch(
         " https://auctioneer.azurewebsites.net/auction/b3c"
-      );// kolla om auktionen är aktuell
+      );
       const data = await response.json();
+      // KOlla om auktionen är aktuell sebbe version
       data.forEach((d) => {
         d.active = new Date() < new Date(d.EndDate);
       });
@@ -44,9 +41,8 @@ function AuctionPage() {
       console.log("Bids response status:", response.status); //  kontrollera svarskoden från servern
       const bids = await response.json();
       console.log("Bids data:", bids); //  kontrollera data för bud
-      
       let highestBid;
-      if(bids.lengt > 0) {
+      if (bids.lengt > 0) {
         highestBid = Math.max(...bids.map((bid) => bid.Amount));
       } else {
         highestBid = null;
@@ -63,8 +59,8 @@ function AuctionPage() {
   const handleAuctionSelect = (auctionData) => {
     console.log(auctionData);
     // Växla tillståndet för att öppna eller stänga auktion knappen
-    setIsAuctionOpen(!isAuctionOpen) ;
-    setSelectedAuction(auctionData); 
+    setIsAuctionOpen(!isAuctionOpen);
+    setSelectedAuction(auctionData);
     setHighestBid(null); //återställa highestBid till null när ny aktion väljs
     setBidHistory([]);
     fetchBids(auctionData.AuctionID); // Hämta bud bara om auktionen öppnas
@@ -83,6 +79,7 @@ function AuctionPage() {
     }
 
     try {
+      const userBid = inputBidRef.current.value;
       console.log("User bid:", userBid); //  kontrollera värdet på användarens bud
       const response = await fetch(
         "https://auctioneer.azurewebsites.net/bid/b3c",
@@ -92,7 +89,7 @@ function AuctionPage() {
           body: JSON.stringify({
             AuctionID: auctionId,
             Amount: userBid,
-            Bidder: "John Doe",
+            Bidder: "Dani",
             GroupCode: "b3c",
           }),
         }
@@ -101,14 +98,13 @@ function AuctionPage() {
 
       if (response.ok) {
         setMessage("Bid successfully!");
-        const newBid = parseInt(userBid, 10);
-        if (newBid > highestBid || highestBid === null) {
-          setHighestBid(newBid);
+        if (userBid > highestBid || highestBid === null) {
+          setHighestBid(userBid);
         }
       } else {
         const errorMessage = await response.text();
         console.log("Server error message:", errorMessage); //  visa serverns felmeddelande
-        throw new Error("Bid is too low. ");
+        setMessage("Bid is too low. ");
       }
     } catch (error) {
       console.log("Error submitting bid:", error); // logg för att visa fångade fel
@@ -120,63 +116,71 @@ function AuctionPage() {
 
   return (
     <div className="auction-page">
-      <h1>Welcome to the Auction Page ♣️💸</h1>
+      <h1>Welcome to the Auction Page 💸</h1>
 
-      {auctions.map((auctionData) => (
-        <div className="auction-card" key={uuid()}>
-          <p>
-            <strong>Title: {auctionData.Title}</strong>
-          </p>
-          <p>
-            <strong>Description: {auctionData.Description}</strong>
-          </p>
-          <p>
-            <strong>
-              Highest bid:
-              {highestBid || auctionData.StartingPrice}
-            </strong>
-          </p>
-          <p>
-            <strong>End Date: {auctionData.EndDate}</strong>
-            {auctionData.active ? (
-              <button onClick={() => handleAuctionSelect(auctionData)}>
-                {isAuctionOpen && selectedAuction === auctionData
-                  ? "Close Auction"
-                  : "Select Auction"}
-              </button>
-            ) : (
-              <button style={{ background: "red" }} disabled>
-                Auction Closed
-              </button>
-            )}
-          </p>
-          {isAuctionOpen && selectedAuction === auctionData && (
-            <div>
-              <h2>{selectedAuction.Title}</h2>
-              <p> New bid: </p>
-              <form id="new-bid" onSubmit={handleBidSubmit}>
-                <input
-                  type="number"
-                  onChange={(e) => setUserBid(parseInt(e.target.value, 10))}
-                  required
-                />
-                <button type="submit">Place Bid </button>
-              </form>
-              {message && <p>{message}</p>}
-              <div className="bid-history">
-                <h3> Bid History</h3>
-                <ul>
-                  {bidHistory.map((bid) => (
-                    <li style={{ fontSize: ".8rem" }} key={bid.BidID}>
-                      Bid Amount :{bid.Amount}, Bidder: {bid.Bidder}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+      {auctions.map(
+        (auctionData) =>
+          auctionData && (
+            <div className="auction-card" key={uuid()}>
+              <p>
+                <strong>Title: {auctionData.Title.toUpperCase()}</strong>
+              </p>
+              <p>
+                <strong>Description: {auctionData.Description}</strong>
+              </p>
+              <p>
+                <strong>
+                  Highest bid:
+                  {highestBid || auctionData.StartingPrice}
+                </strong>
+              </p>
+              <p>
+                <strong>End Date: {auctionData.EndDate}</strong>
+              </p>
+              <p>
+                {auctionData.active ? (
+                  <button onClick={() => handleAuctionSelect(auctionData)}>
+                    {isAuctionOpen && selectedAuction === auctionData
+                      ? "Close Auction"
+                      : "Select Auction"}
+                  </button>
+                ) : (
+                  <button id="auction-closed" disabled>
+                    Auction Closed
+                  </button>
+                )}
+              </p>
+              {isAuctionOpen && selectedAuction === auctionData && (
+                <div className="new-bid">
+                  <h2>{selectedAuction.Title.toUpperCase()}</h2>
+                  <p> New bid: </p>
+                  <div className="submitt-newbid">
+                    <input
+                      type="number"
+                      placeholder="New bid"
+                      ref={inputBidRef}
+                    />
+                  </div>
+                  <button type="button" onClick={handleBidSubmit}>
+                    Place Bid{" "}
+                  </button>
+                  {message && <p>{message}</p>}
+
+                  <div>
+                    <h3> Bid History</h3>
+                    <ul>
+                      {bidHistory.map((bid) => (
+                        <li className="bid-history" key={bid.BidID}>
+                          Bid Amount:{bid.Amount} Bidder ID: {bid.BidID}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      ))}
+          )
+      )}
     </div>
   );
 }

@@ -5,6 +5,7 @@ const Navigation = () => {
     <nav>
       {/**Skapa länkar till våra routes */}
       <ul>
+        
         <li>
           {/**Lägg till flera länkar här under */}
           <NavLink to="/">Home</NavLink>
