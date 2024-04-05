@@ -112,7 +112,7 @@ const EditAction = () => {
               <label>Created by:</label>
               <input type="text" name="CreatedBy" value={data.CreatedBy} onChange={(e) => setData({ ...data, CreatedBy: e.target.value })} />
               <br />
-              <button className={styles.subButton} onClick={handleSubmit}>Submit</button>
+              <button className={styles.subButton} onClick={handleSubmit}>Edit</button>
             </div>
           ) : (
             <div>
