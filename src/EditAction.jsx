@@ -53,7 +53,7 @@ const EditAction = () => {
         await axios.delete(`https://auctioneer.azurewebsites.net/auction/${post.GroupCode}/${post.AuctionId}`);
         console.log('Action deleted successfully');
         setData(null);
-        setPost({ GroupCode: '', AuctionId: '' }); // Återställ postvariabeln till ett tomt objekt efter delete
+        setPost({ GroupCode: '', AuctionId: '' }); 
       }
     } catch (error) {
       console.error('Error deleting action:', error);
@@ -70,7 +70,7 @@ const EditAction = () => {
       console.log('Auction updated successfully');
       setEditable(false);
       setData(null);
-      setPost({ GroupCode: '', AuctionId: '' }); // Återställ postvariabeln till ett tomt objekt efter submit
+      setPost({ GroupCode: '', AuctionId: '' }); 
     } catch (error) {
       console.error('Error updating auction:', error);
     }
