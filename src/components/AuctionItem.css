@@ -1,0 +1,36 @@
+.auction-item {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.item-info {
+    margin-bottom: 10px;
+}
+
+.item-bid {
+    font-weight: bold;
+}
+
+.item-actions {
+    display: flex;
+    align-items: center;
+}
+
+.bid-input {
+    margin-right: 10px;
+}
+
+.bid-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.bid-button:hover {
+    background-color: #0056b3;
+}
