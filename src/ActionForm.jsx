@@ -22,7 +22,7 @@ const CreateAuction = () => {
   const handleSubmit = async event => {
     event.preventDefault();
     try {
-      const response = await axios.post('https://auctioneer.azurewebsites.net/auction/b3c', auctionData);
+      const response = await axios.post('https://auctioneer2.azurewebsites.net/auction/b3c', auctionData);
       console.log('Auction created:', response.data);
       setAuctionData({
         Title: '',
@@ -65,7 +65,7 @@ const CreateAuction = () => {
   
       </form>
       
-      <NavLink to="/">Back to Home </NavLink>
+      <NavLink className={styles.nav} to="/">Back to Home </NavLink>
     </div>
   );
 };

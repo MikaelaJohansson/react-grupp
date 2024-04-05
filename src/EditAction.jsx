@@ -15,7 +15,7 @@ const EditAction = () => {
     const fetchData = async () => {
       try {
         if (post.AuctionId) {
-          const response = await axios.get(`https://auctioneer.azurewebsites.net/auction/b3c/${post.AuctionId}`);
+          const response = await axios.get(`https://auctioneer2.azurewebsites.net/auction/b3c/${post.AuctionId}`);
           setData(response.data);
         }
       } catch (error) {
@@ -30,7 +30,7 @@ const EditAction = () => {
     const fetchAuctionId = async () => {
       try {
         if (post.GroupCode) {
-          const response = await axios.get(`https://auctioneer.azurewebsites.net/auction/group/${post.GroupCode}`);
+          const response = await axios.get(`https://auctioneer2.azurewebsites.net/auction/group/${post.GroupCode}`);
           if (response.data.length > 0) {
             setPost({ ...post, AuctionId: response.data[0].AuctionID });
           }
@@ -50,7 +50,7 @@ const EditAction = () => {
   const handleDelete = async () => {
     try {
       if (data && data.StartingPrice === 0) {
-        await axios.delete(`https://auctioneer.azurewebsites.net/auction/${post.GroupCode}/${post.AuctionId}`);
+        await axios.delete(`https://auctioneer2.azurewebsites.net/auction/${post.GroupCode}/${post.AuctionId}`);
         console.log('Action deleted successfully');
         setData(null);
         setPost({ GroupCode: '', AuctionId: '' }); 
@@ -66,7 +66,7 @@ const EditAction = () => {
 
   const handleSubmit = async () => {
     try {
-      await axios.put(`https://auctioneer.azurewebsites.net/auction/b3c/${post.AuctionId}`, data);
+      await axios.put(`https://auctioneer2.azurewebsites.net/auction/b3c/${post.AuctionId}`, data);
       console.log('Auction updated successfully');
       setEditable(false);
       setData(null);
@@ -133,7 +133,7 @@ const EditAction = () => {
       ) : (
         <p>No action selected</p>
       )}
-      <div>
+      <div className={styles.navContainer}>
         <NavLink to="/">Back to Home</NavLink> 
       </div>
     </>
