@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import "../App.css";
+import {NavLink} from "react-router-dom";
+import "./App.css";
+import { NavLink } from "react-router-dom";
 
 // state variabler för AuctionPage
 function AuctionPage() {
