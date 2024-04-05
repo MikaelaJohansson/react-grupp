@@ -1,0 +1,51 @@
+
+.formContainer{
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  text-align: left;
+  max-width: fit-content;
+  margin: auto;
+  margin-bottom: 2rem;
+}
+.firstContainer{
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  text-align: left;
+  max-width: fit-content;
+  margin: auto;
+  margin-bottom: 2rem;
+  background-color: rgba(250, 198, 168, 0.1);
+  border: 1px solid black;
+}
+input{
+  width: 20rem;
+  height: 1.5rem;
+}
+.form{
+  max-width: fit-content;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem;
+}
+.resContainer{
+  border: 1px solid black;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  max-width: fit-content;
+  background-color: rgba(250, 198, 168, 0.1);
+  margin: auto;
+}
+.editButton,.deleteButton,.subButton{
+  margin-top: 1rem;
+  border: 1px solid black;
+  margin: 1rem;
+}
+.navContainer{
+  margin-top: 2rem;
+}
