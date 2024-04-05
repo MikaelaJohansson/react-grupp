@@ -2,28 +2,25 @@ import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import { NavLink } from "react-router-dom";
 
-// state variabler för AuctionPage
 function AuctionPage() {
-  const [auctions, setAuctions] = useState([]); // lagrar alla auktioner från API
-  const [selectedAuction, setSelectedAuction] = useState(null); //den valda auktionen
-  const [highestBid, setHighestBid] = useState(null); // det högsta budet som finns
-  const [message, setMessage] = useState(""); //meddelanden till användaren
-  const [isAuctionOpen, setIsAuctionOpen] = useState(false); // Tillståndsknapp för att hålla reda på om auktionen är öppen eller stängd
-  const [bidHistory, setBidHistory] = useState([]); // budhistorik
+  const [auctions, setAuctions] = useState([]);
+  const [selectedAuction, setSelectedAuction] = useState(null);
+  const [highestBid, setHighestBid] = useState(null);
+  const [message, setMessage] = useState("");
+  const [isAuctionOpen, setIsAuctionOpen] = useState(false);
+  const [bidHistory, setBidHistory] = useState([]);
   const inputBidRef = useRef(null);
 
   useEffect(() => {
     fetchAuctions();
   }, []);
 
-  //funktion för att hämta auktionslistan från API
   const fetchAuctions = async () => {
     try {
       const response = await fetch(
-        " https://auctioneer.azurewebsites.net/auction/b3c"
+        " https://auctioneer2.azurewebsites.net/auction/b3c"
       );
       const data = await response.json();
-      // KOlla om auktionen är aktuell sebbe version
       data.forEach((d) => {
         d.active = new Date() < new Date(d.EndDate);
       });
@@ -33,57 +30,45 @@ function AuctionPage() {
     }
   };
 
-  //funktion för att ta fram det högsta budet för den valda auktionen
   const fetchBids = async (id) => {
     try {
       const response = await fetch(
-        "https://auctioneer.azurewebsites.net/bid/b3c/" + id
+        "https://auctioneer2.azurewebsites.net/bid/b3c/" + id
       );
-      console.log("Bids response status:", response.status); //  kontrollera svarskoden från servern
       const bids = await response.json();
-      console.log("Bids data:", bids); //  kontrollera data för bud
       let highestBid;
       if (bids.lengt > 0) {
         highestBid = Math.max(...bids.map((bid) => bid.Amount));
       } else {
         highestBid = null;
       }
-      console.log("Highest bid:", highestBid); //  kontrollera det högsta budet
       setHighestBid(highestBid);
       setBidHistory(bids);
     } catch (error) {
-      console.error("Error fetching bids:", error); // Lägg till logg för att visa fångade fel
       console.log("kunde inte hämta bud:", error);
     }
   };
 
   const handleAuctionSelect = (auctionData) => {
-    console.log(auctionData);
-    // Växla tillståndet för att öppna eller stänga auktion knappen
     setIsAuctionOpen(!isAuctionOpen);
     setSelectedAuction(auctionData);
-    setHighestBid(null); //återställa highestBid till null när ny aktion väljs
+    setHighestBid(null); 
     setBidHistory([]);
-    fetchBids(auctionData.AuctionID); // Hämta bud bara om auktionen öppnas
+    fetchBids(auctionData.AuctionID); 
   };
 
   const handleBidSubmit = async (event) => {
     event.preventDefault();
 
-    // Hämta auktions-ID från det valda auktionsobjektet (selectedAuction)
     const auctionId = selectedAuction ? selectedAuction.AuctionID : null;
-
-    // Kolla om auktions-ID är definierat
     if (!auctionId) {
-      console.error("Auktions-ID är inte definierat.");
       return;
     }
 
     try {
       const userBid = inputBidRef.current.value;
-      console.log("User bid:", userBid); //  kontrollera värdet på användarens bud
       const response = await fetch(
-        "https://auctioneer.azurewebsites.net/bid/b3c",
+        "https://auctioneer2.azurewebsites.net/bid/b3c",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -95,7 +80,6 @@ function AuctionPage() {
           }),
         }
       );
-      console.log("Response status:", response.status); //  kontrollera svarskoden från servern
 
       if (response.ok) {
         setMessage("Bid successfully!");
@@ -104,11 +88,9 @@ function AuctionPage() {
         }
       } else {
         const errorMessage = await response.text();
-        console.log("Server error message:", errorMessage); //  visa serverns felmeddelande
         setMessage("Bid is too low. ");
       }
     } catch (error) {
-      console.log("Error submitting bid:", error); // logg för att visa fångade fel
       setMessage("Kunde inte lägga bud");
     }
   };
