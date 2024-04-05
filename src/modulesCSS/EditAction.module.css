@@ -19,10 +19,14 @@
   margin-top: 2rem;
   border: 1px solid white;
   background-color: #536878;
+  font-size: 1.5rem;
+  gap: 0.5rem;
+  border-radius: 0.5rem;
 }
 input{
   width: 20rem;
   height: 1.5rem;
+  margin: 0.2rem;
 }
 .form{
   max-width: fit-content;
@@ -46,6 +50,7 @@ input{
   box-shadow: 2px 3px 4px solid gray;
   margin: auto;
   font-weight: bolder;
+  font-size: 1.5rem;
 }
 .editButton{
   border: 1px solid black;
