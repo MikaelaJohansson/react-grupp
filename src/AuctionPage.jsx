@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import {NavLink} from "react-router-dom";
 import "./App.css";
 import { NavLink } from "react-router-dom";
 
@@ -183,6 +182,9 @@ function AuctionPage() {
             </div>
           )
       )}
+      <div>
+        <NavLink to="/">Back to Home</NavLink>
+      </div>
     </div>
   );
 }
